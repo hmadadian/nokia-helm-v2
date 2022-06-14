@@ -1,0 +1,9 @@
+postgresqlUsername: "postgres"
+postgresqlPassword: "Nira1256#"
+postgresqlDbName: "nokia_test"
+postgresqlTableName: "foodlist"
+restapireplicaCount: 3
+restapiUrl: "0.0.0.0"
+restapiContainerPort: 8000
+restapiExposedPort: 30008
+tokenSecret: "1fd80d34b47a810befbeeae3ad7963ba15ce1fa3"
