@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-restapi-database
+spec:
+  serviceName: {{ .Release.Name }}-postgresql-db-service
+  selector:
+    matchLabels:
+      app: python-app-database
+  replicas: 1
+  template:
+    metadata:
+      name: python-app-database
+      labels:
+        app: python-app-database
+    spec:
+      containers:
+      - name: postgresql-db
+        image: postgres:latest
+        volumeMounts:
+        - name: pgs-db
+          mountPath: /data
+        env:
+        - name: PGDATA
+          value: /data/pgdata
+        - name: POSTGRES_PASSWORD
+          valueFrom: 
+            secretKeyRef:
+              name: {{ .Release.Name }}-restapi-database-pass
+              key: POSTGRESQL_PASSWORD
+        - name: POSTGRES_DB
+          valueFrom: 
+            configMapKeyRef:
+              name: {{ .Release.Name }}-restapi-database-con
+              key: POSTGRESQL_DATABASE_NAME
+
+  volumeClaimTemplates:
+  - metadata:
+      name: pgs-db
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi

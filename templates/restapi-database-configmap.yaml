@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-restapi-database-con
+data:
+  POSTGRESQL_ADDRESS: {{ .Release.Name }}-restapi-database-service
+  POSTGRESQL_USERNAME: {{ .Values.postgresqlUsername }}
+  POSTGRESQL_DATABASE_NAME: {{ .Values.postgresqlDbName }}
+  POSTGRESQL_TABLE_NAME: {{ .Values.postgresqlTableName }}
+  RESTAPI_URL: {{ .Values.restapiUrl }}
+  RESTAPI_PORT: {{ quote .Values.restapiContainerPort }}
+  TOKEN_SECRET: {{ .Values.tokenSecret }}
